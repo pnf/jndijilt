@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+}
+
+group 'com.acyclic'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+}
+
+test {
+    useJUnitPlatform()
+    jvmArgs '-javaagent:./build/libs/jndijilt-1.0.jar'
+}
+
+jar {
+    archiveFileName = "${rootProject.name}-${rootProject.version}.jar"
+    manifest {
+        attributes(
+                'Premain-Class': 'com.acyclic.jndijilt.Agent',
+                'Can-Redefine-Classes': 'true',
+                'Can-Retransform-Classes': 'true',
+                'Can-Set-Native-Method-Prefix': 'true',
+                'Implementation-Title': "JndiJilt",
+                'Implementation-Version': rootProject.version
+        )
+    }
+}
